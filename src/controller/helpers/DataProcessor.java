@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,13 +22,14 @@ import org.json.simple.*;
 
 public class DataProcessor {
 
-    public List<Image> loadDataset(String id) throws NotFoundError {
+    public List<JSONObject> loadDataset(String id) throws NotFoundError {
 
-        String dirPath = "/../../../images/" + id;
+        String dirPath = "./images/" + id;
 
-        List<Image> validImages = new ArrayList<>();
+        List<JSONObject> validImages = new ArrayList<>();
 
         File dir = new File(dirPath);
+
         File[] directoryList = dir.listFiles();
 
         if (directoryList != null) {
@@ -50,15 +52,13 @@ public class DataProcessor {
         return validImages;
     }
 
-    private Image processData(File img) {
+    private JSONObject processData(File img) {
 
-        JSONObject jsonObject = new JSONObject();
-
-        BufferedImage image;
+        BufferedImage bufferedImage;
 
         try {
 
-            image = ImageIO.read(img);
+            bufferedImage = ImageIO.read(img);
 
         } catch (IOException e) {
 
@@ -66,13 +66,14 @@ public class DataProcessor {
             return null;
         }
 
-        String name = img.getName();
-        int width = image.getWidth();
-        int height = image.getHeight();
-        ImageKind kind = this.getExtension(img);
-        String base64 = this.encodeImgToBase64(img);
+        JSONObject image = new JSONObject();
 
-        return new Image(name, width, height, kind, base64);
+        image.put("name", img.getName());
+        image.put("width", bufferedImage.getWidth());
+        image.put("height", bufferedImage.getHeight());
+        image.put("kind", this.getExtension(img));
+
+        return image;
     }
 
     private ImageKind getExtension(File img) {
@@ -110,16 +111,16 @@ public class DataProcessor {
 
             FileInputStream fileInputStreamReader = new FileInputStream(img.getAbsolutePath());
             byte[] bytes = new byte[(int) img.length()];
-            fileInputStreamReader.read(bytes);
+            if (fileInputStreamReader.read(bytes) == -1) {
+
+                System.exit(1);
+            }
             encodedImage = Base64.getEncoder().encodeToString(bytes);
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
         }
 
         return encodedImage;

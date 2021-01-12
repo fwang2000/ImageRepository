@@ -1,11 +1,11 @@
 package controller;
 
-import controller.domain.Image;
 import controller.exceptions.ImageDatasetError;
 import controller.exceptions.InvalidIDError;
 import controller.exceptions.NotFoundError;
 import controller.helpers.DataProcessor;
 import controller.helpers.DiskStorer;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.regex.*;
 
 public class ImageRepo implements IImageRepo {
 
-    private final Map<String, List<Image>> DATASETS;
+    private final Map<String, List<JSONObject>> DATASETS;
     private final DataProcessor DATA_PROCESSOR;
     private final DiskStorer DISK_STORER;
 
@@ -29,12 +29,12 @@ public class ImageRepo implements IImageRepo {
     @Override
     public String[] addDataset(String id) {
 
-        if (!this.idValid(id) || DATASETS.containsKey(id)) {
+        if (this.idValid(id) || DATASETS.containsKey(id)) {
 
             throw new InvalidIDError();
         }
 
-        List<Image> datasetImages = DATA_PROCESSOR.loadDataset(id);
+        List<JSONObject> datasetImages = DATA_PROCESSOR.loadDataset(id);
 
         DATASETS.put(id, datasetImages);
         DISK_STORER.store(id, datasetImages);
@@ -48,13 +48,13 @@ public class ImageRepo implements IImageRepo {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(id);
 
-        return m.matches();
+        return !m.matches();
     }
 
     @Override
     public String removeDataset(String id) {
 
-        if (!this.idValid(id)) {
+        if (this.idValid(id)) {
 
             throw new InvalidIDError();
         }
@@ -67,7 +67,7 @@ public class ImageRepo implements IImageRepo {
             if (!f.delete()) {
 
                 throw new ImageDatasetError();
-            };
+            }
 
         } else {
 
