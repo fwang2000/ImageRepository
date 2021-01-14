@@ -1,12 +1,17 @@
 package controller;
 
-import controller.domain.ImageDataset;
+import controller.exceptions.ImageDatasetError;
+import controller.exceptions.InvalidIDError;
+import controller.exceptions.NotFoundError;
+import org.json.simple.JSONObject;
+
+import java.util.Set;
 
 public interface IImageRepo {
 
-    String[] addDataset(String id);
+    Set<String> addDataset(String id) throws InvalidIDError;
 
-    String removeDataset(String id);
+    String removeDataset(String id) throws InvalidIDError, NotFoundError, ImageDatasetError;
 
-    String[] performQuery(String query);
+    String[] performQuery(JSONObject query);
 }

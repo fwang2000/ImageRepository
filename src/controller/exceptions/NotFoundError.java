@@ -1,4 +1,4 @@
 package controller.exceptions;
 
-public class NotFoundError extends Error {
+public class NotFoundError extends Exception {
 }

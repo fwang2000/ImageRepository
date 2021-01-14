@@ -8,7 +8,11 @@ public class AddDatasetTest  {
 
     public static void main(String[] args) {
 
-        String id = "images";
-        imageRepo.addDataset("images");
+        try {
+            imageRepo.addDataset("images");
+        } catch (Exception e) {
+
+            System.out.println("nope");
+        }
     }
 }

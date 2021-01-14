@@ -1,4 +1,4 @@
 package controller.exceptions;
 
-public class ResultTooLargeError extends Error {
+public class ResultTooLargeError extends Exception {
 }

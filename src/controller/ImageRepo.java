@@ -3,19 +3,21 @@ package controller;
 import controller.exceptions.ImageDatasetError;
 import controller.exceptions.InvalidIDError;
 import controller.exceptions.NotFoundError;
+import controller.exceptions.ResultTooLargeError;
 import controller.helpers.DataProcessor;
 import controller.helpers.DiskStorer;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.*;
 
 public class ImageRepo implements IImageRepo {
 
-    private final Map<String, List<JSONObject>> DATASETS;
+    private final Map<String, JSONArray> DATASETS;
     private final DataProcessor DATA_PROCESSOR;
     private final DiskStorer DISK_STORER;
 
@@ -27,19 +29,29 @@ public class ImageRepo implements IImageRepo {
     }
 
     @Override
-    public String[] addDataset(String id) {
+    public Set<String> addDataset(String id) throws InvalidIDError {
 
         if (this.idValid(id) || DATASETS.containsKey(id)) {
 
             throw new InvalidIDError();
         }
 
-        List<JSONObject> datasetImages = DATA_PROCESSOR.loadDataset(id);
+        try {
 
-        DATASETS.put(id, datasetImages);
-        DISK_STORER.store(id, datasetImages);
+            JSONArray datasetImages = DATA_PROCESSOR.loadDataset(id);
+            DATASETS.put(id, datasetImages);
+            DISK_STORER.store(id, datasetImages);
 
-        return new String[0];
+        } catch (NotFoundError e) {
+
+            System.out.println(id + " folder not found.");
+
+        } catch (ResultTooLargeError e) {
+
+            System.out.println(id + " has too many images.");
+        }
+
+        return DATASETS.keySet();
     }
 
     private boolean idValid(String id) {
@@ -52,7 +64,7 @@ public class ImageRepo implements IImageRepo {
     }
 
     @Override
-    public String removeDataset(String id) {
+    public String removeDataset(String id) throws InvalidIDError, NotFoundError, ImageDatasetError {
 
         if (this.idValid(id)) {
 
@@ -80,9 +92,11 @@ public class ImageRepo implements IImageRepo {
     }
 
     @Override
-    public String[] performQuery(String query) {
+    public String[] performQuery(JSONObject query) {
 
 
         return new String[0];
     }
+
+
 }

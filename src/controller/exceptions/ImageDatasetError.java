@@ -1,4 +1,4 @@
 package controller.exceptions;
 
-public class ImageDatasetError extends Error {
+public class ImageDatasetError extends Exception {
 }
