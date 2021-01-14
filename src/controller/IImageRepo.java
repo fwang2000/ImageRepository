@@ -12,6 +12,4 @@ public interface IImageRepo {
     Set<String> addDataset(String id) throws InvalidIDError;
 
     String removeDataset(String id) throws InvalidIDError, NotFoundError, ImageDatasetError;
-
-    String[] performQuery(JSONObject query);
 }

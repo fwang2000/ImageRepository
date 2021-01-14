@@ -90,13 +90,4 @@ public class ImageRepo implements IImageRepo {
 
         return id;
     }
-
-    @Override
-    public String[] performQuery(JSONObject query) {
-
-
-        return new String[0];
-    }
-
-
 }
