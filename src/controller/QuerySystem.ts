@@ -1,7 +1,7 @@
 import Log from "../Util";
 import QueryEvaluator from "./helpers/QueryEvaluator";
 
-let fs = require("fs");
+const fs = require("fs");
 
 export default class QuerySystem {
 

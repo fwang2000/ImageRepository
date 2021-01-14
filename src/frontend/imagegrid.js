@@ -1,5 +1,4 @@
-let fs = require('fs');
-let net = require('net');
+const fs = require('fs');
 
 let dirPath = "./data";
 
