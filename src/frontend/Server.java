@@ -1,8 +1,9 @@
+package frontend;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Server implements Runnable {
@@ -31,7 +32,7 @@ public class Server implements Runnable {
         try {
 
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("Server started.\nListening for connections on port: " + PORT + "...\n");
+            System.out.println("frontend.Server started.\nListening for connections on port: " + PORT + "...\n");
 
             // run until user halts the server
             while (true) {
@@ -89,7 +90,7 @@ public class Server implements Runnable {
                 byte[] fileData = readFileData(file, fileLength);
 
                 out.println("HTTP/1.1 501 Not Implemented");
-                out.println("Server: Java HTTP Server: 1.0");
+                out.println("frontend.Server: Java HTTP frontend.Server: 1.0");
                 out.println("Date: " + new Date());
                 out.println("Content-type: " + contentMimeType);
                 out.println("Content-length: " + fileLength);
@@ -114,7 +115,7 @@ public class Server implements Runnable {
                     byte[] fileData = readFileData(file, fileLength);
 
                     out.println("HTTP/1.1 501 Not Implemented");
-                    out.println("Server: Java HTTP Server: 1.0");
+                    out.println("frontend.Server: Java HTTP frontend.Server: 1.0");
                     out.println("Date: " + new Date());
                     out.println("Content-type: " + content);
                     out.println("Content-length: " + fileLength);
@@ -143,7 +144,7 @@ public class Server implements Runnable {
 
         } catch (IOException e) {
 
-            System.err.println("Server Error: " + e);
+            System.err.println("frontend.Server Error: " + e);
 
         } finally {
 
@@ -204,7 +205,7 @@ public class Server implements Runnable {
         byte[] fileData = readFileData(file, fileLength);
 
         out.println("HTTP/1.1 501 Not Implemented");
-        out.println("Server: Java HTTP Server: 1.0");
+        out.println("frontend.Server: Java HTTP frontend.Server: 1.0");
         out.println("Date: " + new Date());
         out.println("Content-type: " + content);
         out.println("Content-length: " + fileLength);

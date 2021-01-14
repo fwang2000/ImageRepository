@@ -3,7 +3,6 @@ package controller;
 import controller.exceptions.ImageDatasetError;
 import controller.exceptions.InvalidIDError;
 import controller.exceptions.NotFoundError;
-import org.json.simple.JSONObject;
 
 import java.util.Set;
 

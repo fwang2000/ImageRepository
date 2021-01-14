@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES6",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "lib": [
+            "es7",
+            "es2017.object",
+            "dom"
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
+    },
+    "include": [
+        "src/**/*/*.ts",
+        "../../../../../../AppData/Local/JetBrains/IntelliJIdea2020.2/javascript/typings/node/14.10.1/node_modules/@types/node/ts3.1/globals.d.ts"
+    ]
+}

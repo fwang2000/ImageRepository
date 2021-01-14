@@ -7,7 +7,6 @@ import controller.exceptions.ResultTooLargeError;
 import controller.helpers.DataProcessor;
 import controller.helpers.DiskStorer;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
